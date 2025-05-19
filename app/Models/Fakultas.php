@@ -9,7 +9,7 @@ class Fakultas extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id','nama_fakultas','foto'];
+    protected $fillable = ['id','nama_fakultas','deskripsi','foto'];
     public $timestampe = true;
 
     public function deleteImage(){

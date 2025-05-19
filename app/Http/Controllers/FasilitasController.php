@@ -37,19 +37,23 @@ class FasilitasController extends Controller
      */
     public function store(Request $request)
     {
-        $fasilitas = new Fasilitas;
+        $validated = $request->validate([
+            'nama_fasilitas' => 'required|unique:fasilitas',
+            'foto' => 'required|mimes:jpg,png,jpeg,webp,avif|max:9999',
+        ]);
+
+        $fasilitas = new Fasilitas();
         $fasilitas->nama_fasilitas = $request->nama_fasilitas;
 
-        if($request->hasFile('foto')){
-        $img = $request->File('foto');
-        $name = rand(1000,9999) . $img->getClientOriginalName();
-        $img->move('storage/fasilitas', $name);
-        $fasilitas->foto = $name;
-
+        if ($request->hasFile('foto')) {
+            $img = $request->File('foto');
+            $name = rand(1000, 9999) . $img->getClientOriginalName();
+            $img->move('storage/fasilitas', $name);
+            $fasilitas->foto = $name;
         }
         $fasilitas->save();
         session()->flash('success', 'Data Berhasil Ditambahkan');
-       return redirect()->route('fasilitas.index');
+        return redirect()->route('fasilitas.index');
     }
 
     /**
@@ -85,19 +89,28 @@ class FasilitasController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validated = $request->validate([
+            'nama_fasilitas' => 'required',
+            'foto' => 'required|mimes:jpg,png,jpeg,webp,avif|max:9999',
+        ]);
+
         $fasilitas = Fasilitas::findOrFail($id);
         $fasilitas->nama_fasilitas = $request->nama_fasilitas;
 
-        if($request->hasFile('foto')){
-        $img = $request->File('foto');
-        $name = rand(1000,9999) . $img->getClientOriginalName();
-        $img->move('storage/fasilitas', $name);
-        $fasilitas->foto = $name;
+        if ($request->hasFile('foto')) {
+            // Delete old photo if it exists
+            if ($fasilitas->foto && Storage::exists('public/fasilitas/' . $fasilitas->foto)) {
+                Storage::delete('public/fasilitas/' . $fasilitas->foto);
+            }
 
+            $img = $request->File('foto');
+            $name = rand(1000, 9999) . $img->getClientOriginalName();
+            $img->move('storage/fasilitas', $name);
+            $fasilitas->foto = $name;
         }
         $fasilitas->save();
         session()->flash('success', 'Data Berhasil Ditambahkan');
-       return redirect()->route('fasilitas.index');
+        return redirect()->route('fasilitas.index');
     }
 
     /**
@@ -112,6 +125,6 @@ class FasilitasController extends Controller
 
         //hapus gambar yang lama jika ada
         $fasilitas->delete();
-        return redirect()->route('fasilitas.index')->with('success','data berhasil dihapus');
+        return redirect()->route('fasilitas.index')->with('success', 'data berhasil dihapus');
     }
 }

@@ -117,7 +117,11 @@ class DosenController extends Controller
         $dosen->status = $request->status;
 
         if ($request->hasFile('foto')) {
-            $dosen->deleteImage();
+            // Delete old photo if it exists
+            if ($dosen->foto && Storage::exists('public/dosen/' . $dosen->foto)) {
+                Storage::delete('public/dosen/' . $dosen->foto);
+            }
+            
             $img = $request->File('foto');
             $name = rand(1000, 9999) . $img->getClientOriginalName();
             $img->move('storage/dosen', $name);

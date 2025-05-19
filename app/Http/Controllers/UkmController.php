@@ -37,20 +37,25 @@ class UkmController extends Controller
      */
     public function store(Request $request)
     {
-        $ukm = new Ukm;
+        $validated = $request->validate([
+            'nama_ukm' => 'required|unique:ukms',
+            'deskripsi' => 'required',
+            'foto' => 'required|mimes:jpg,png,jpeg,webp,avif|max:9999',
+        ]);
+
+        $ukm = new Ukm();
         $ukm->nama_ukm = $request->nama_ukm;
         $ukm->deskripsi = $request->deskripsi;
 
-        if($request->hasFile('foto')){
-        $img = $request->File('foto');
-        $name = rand(1000,9999) . $img->getClientOriginalName();
-        $img->move('storage/ukm', $name);
-        $ukm->foto = $name;
-
+        if ($request->hasFile('foto')) {
+            $img = $request->File('foto');
+            $name = rand(1000, 9999) . $img->getClientOriginalName();
+            $img->move('storage/ukm', $name);
+            $ukm->foto = $name;
         }
         $ukm->save();
         session()->flash('success', 'Data Berhasil Ditambahkan');
-       return redirect()->route('ukm.index');
+        return redirect()->route('ukm.index');
     }
 
     /**
@@ -86,20 +91,29 @@ class UkmController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validated = $request->validate([
+            'nama_ukm' => 'required',
+            'deskripsi' => 'required',
+            'foto' => 'required|mimes:jpg,png,jpeg,webp,avif|max:9999',
+        ]);
+
         $ukm = Ukm::findOrFail($id);
         $ukm->nama_ukm = $request->nama_ukm;
         $ukm->deskripsi = $request->deskripsi;
 
-        if($request->hasFile('foto')){
-        $img = $request->File('foto');
-        $name = rand(1000,9999) . $img->getClientOriginalName();
-        $img->move('storage/ukm', $name);
-        $ukm->foto = $name;
-
+        if ($request->hasFile('foto')) {
+            // Delete old photo if it exists
+            if ($ukm->foto && Storage::exists('public/ukm/' . $ukm->foto)) {
+                Storage::delete('public/ukm/' . $dosen->foto);
+            }
+            $img = $request->File('foto');
+            $name = rand(1000, 9999) . $img->getClientOriginalName();
+            $img->move('storage/ukm', $name);
+            $ukm->foto = $name;
         }
         $ukm->save();
         session()->flash('success', 'Data Berhasil Ditambahkan');
-       return redirect()->route('ukm.index');
+        return redirect()->route('ukm.index');
     }
 
     /**
@@ -110,10 +124,10 @@ class UkmController extends Controller
      */
     public function destroy($id)
     {
-       $ukm = Ukm::findOrFail($id);
+        $ukm = Ukm::findOrFail($id);
 
         //hapus gambar yang lama jika ada
         $ukm->delete();
-        return redirect()->route('ukm.index')->with('success','data berhasil dihapus');
+        return redirect()->route('ukm.index')->with('success', 'data berhasil dihapus');
     }
 }
