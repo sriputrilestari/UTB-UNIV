@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Dosen;
+use Illuminate\Support\Facades\Storage;
+
 
 class DosenController extends Controller
 {
@@ -123,8 +125,8 @@ class DosenController extends Controller
             }
             
             $img = $request->File('foto');
-            $name = rand(1000, 9999) . $img->getClientOriginalName();
-            $img->move('storage/dosen', $name);
+            $name = rand(1000, 9999) . '_' . $img->getClientOriginalName();
+            $img->storeAs('storage/dosen', $name);
             $dosen->foto = $name;
         }
         $dosen->save();

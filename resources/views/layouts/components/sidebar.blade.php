@@ -9,7 +9,7 @@
                 <ul id="accordion-menu">
 					<li class="">
 						<a href="{{route('home')}}" class="dropdown-toggle no-arrow">
-							<span class="micon fa fa-home"></span><span class="mtext">Home</span>
+							<span class="micon fa fa-home"></span><span class="mtext">Branda</span>
 						</a>
 					</li>
 					<li class="">

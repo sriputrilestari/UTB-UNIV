@@ -71,7 +71,7 @@
                                                         </option>
                                                         <option value="Dosen Tetap">Dosen tetap
                                                         </option>
-                                                        <option value="Dosen Tidak Tetap">Dosen idak tetap
+                                                        <option value="Dosen Tidak Tetap">Dosen tidak tetap
                                                         </option>
                                                     </select>
                                                     @error('status')

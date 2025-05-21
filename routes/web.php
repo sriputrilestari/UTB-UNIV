@@ -25,6 +25,15 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes(['register' => false]);
 
 Route::get('/', [FrontController::class, 'index']);
+Route::get('/artikels', [FrontController::class, 'artikels']);
+Route::get('artikel{id}', [FrontController::class,'detailartikels'])->name('detail_artikel');
+Route::get('/dosen', [FrontController::class, 'dosen']);
+Route::get('/prestasi', [FrontController::class, 'prestasi']);
+Route::get('prestasi{id}', [FrontController::class,'detailprestasi'])->name('detail_prestasi');
+Route::get('/prestasi', [FrontController::class,'prestasi'])->name('prestasi');
+Route::get('/fasilitas',[FrontController::class,'fasilitas']);
+
+
 
 
 Auth::routes();
