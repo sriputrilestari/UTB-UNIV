@@ -26,8 +26,8 @@
                             @foreach ($artikels as $data)
                                 <tr>
                                     <td scope="row">{{ $no++ }}</td>
-                                    <td scope="row">{{ $data->judul }}</td>
-                                    <td scope="row">{{ $data->isi }}</td>
+                                    <td scope="row">{{ Str::limit ($data->judul, 10) }}</td>
+                                    <td scope="row">{{ Str::limit($data->isi, 10) }}</td>
                                     <td>
                                         @if ($data->foto)
                                             <img src="{{ asset('storage/artikels/' . $data->foto) }}" alt="Artikel Image"

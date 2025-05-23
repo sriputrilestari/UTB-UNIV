@@ -131,6 +131,7 @@ class ArtikelsController extends Controller
      */
     public function destroy($id)
     {
+        
         $artikels = Artikels::findOrFail($id);
 
         //hapus gambar yang lama jika ada

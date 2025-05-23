@@ -32,6 +32,10 @@ Route::get('/prestasi', [FrontController::class, 'prestasi']);
 Route::get('prestasi{id}', [FrontController::class,'detailprestasi'])->name('detail_prestasi');
 Route::get('/prestasi', [FrontController::class,'prestasi'])->name('prestasi');
 Route::get('/fasilitas',[FrontController::class,'fasilitas']);
+Route::get('fasilitas{id}', [FrontController::class,'detailfasilitas'])->name('detail_fasilitas');
+Route::get('/ukm',[FrontController::class,'ukm']);
+Route::get('ukm{id}',[FrontController::class,'detailukm'])->name('detail_ukm');
+Route::get('/fakultas',[FrontController::class,'fakultas']);
 
 
 

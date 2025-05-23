@@ -5,6 +5,8 @@ use App\Models\Artikels;
 use App\Models\Dosen;
 use App\Models\Prestasi;
 use App\Models\Fasilitas;
+use App\Models\Ukm; 
+use App\Models\Fakultas;
 
 use Illuminate\Http\Request;
 
@@ -37,6 +39,22 @@ class FrontController extends Controller
     public function fasilitas(){
         $fasilitas = Fasilitas::all();
         return view('fasilitas2', compact('fasilitas'));
+    }
+    public function detailfasilitas($id){
+        $data = Fasilitas::FindOrFail($id);
+        return view('detail_fasilitas', compact('data'));
+    }
+    public function ukm(){
+        $ukm = Ukm::all();
+        return view('ukm', compact('ukm'));
+    }
+    public function detailukm($id){
+        $data = Ukm::FindOrFail($id);
+        return view('detail_ukm', compact('data'));
+    }
+    public function fakultas(){
+        $fakultas = Fakultas::all();
+        return view('fakultas', compact('fakultas'));
     }
    
 }
